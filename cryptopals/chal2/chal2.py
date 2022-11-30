@@ -2,7 +2,7 @@ def _bytes_xor(a: bytes, b: bytes, quiet=True, check_lens=False) -> bytes:
     if not quiet:
         print(a, "xors", b)
     if check_lens and len(a) != len(b):
-        raise ValueError('Length mismatch: {}!= {}'.format(len(a), len(b)))
+        raise ValueError('Length mismatch')
     return bytes(byte_1 ^ byte_2 for byte_1, byte_2 in zip(a, b))
 
 def bytes_xor(*args: bytes, quiet=True, check_lens=False):
