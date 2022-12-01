@@ -1,5 +1,7 @@
-
+from dataclasses import dataclass, astuple
+from typing import Optional
 from chal2 import bytes_xor
+from pprint import pprint
 frequencies = {'a': 0.07743208627550165,
  'b': 0.01402241586697527,
  'c': 0.02665670667329359,
@@ -26,6 +28,21 @@ frequencies = {'a': 0.07743208627550165,
  'x': 0.0019880774173815607,
  'y': 0.022836421813561863,
  'z': 0.0006293617859758195}
+
+@dataclass(order=True)
+class ScoredGuess:
+    score: float = float("inf")
+    key: Optional[int] = None # int value of repeated byte used as key
+    ciphertxt: Optional[bytes] = None
+    plaintext: Optional[bytes] = None
+    
+    @classmethod
+    def from_key(cls, ct, key_val):
+        full_key = bytes([key_val]) * len(ct)
+        pt = bytes_xor(ct, full_key)
+        score = score_text(pt)
+        return cls(score, key_val, ct, pt)
+        
 
 def score_text(text: bytes) -> float:
     # lower scores are better
@@ -60,12 +77,14 @@ def crack_xor_cipher_worse(ciphertext: bytes) -> bytes:
         full_key = bytes([candidate_key]) * len(ciphertext) # example b'\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\
         plaintext = bytes_xor(full_key, ciphertext) #uses xor function from chal 2 with our created full_key to xor input hex string
         score = score_text(plaintext)
-        curr_guess = (score, plaintext)
+        curr_guess = (score, plaintext, (candidate_key))
         results.append(curr_guess)
     
     results.sort()
     return results[:5]
 
+
+if __name__ == "__main__":
+    
 ciphertxt = bytes.fromhex("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
-from pprint import pprint
 pprint(crack_xor_cipher_worse(ciphertxt))
