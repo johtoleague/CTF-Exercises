@@ -1,5 +1,9 @@
-def score_text(text: bytes) -> float:
-	#lower scores are better
-	score = 0.0
+with open("D:/Downloads/frank.txt") as f:
+    book = f.read()
+    
+len(book)
 
+from collections import Counter
+from string import ascii_lowercase, ascii_uppercase, ascii_letters
 
+print(ascii_lowercase)
