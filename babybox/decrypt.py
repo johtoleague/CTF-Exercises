@@ -23,7 +23,7 @@ if (len(sys.argv)>5):
     n2=int(sys.argv[5])
 if (len(sys.argv)>6):
     n3=int(sys.argv[6])                
-e=3
+e=5
 
 
 
@@ -39,7 +39,7 @@ print(f"Cipher 3: {c3}, N3={n3}")
 
 
 print(f"\nWe can solved M^e with CRT to get {res}")
-val=libnum.nroot(res,3)
+val=libnum.nroot(res,5)
 print(f"\nIf we assume e=3, we take the third root to get: {val}")
 print("Next we convert this integer to bytes, and display as a string.")
 print(f"\nDecipher: {long_to_bytes(val)}")
